@@ -1,0 +1,14 @@
+
+zookeeper:
+    image: dnephin/docker-zookeeper:3.4.6
+
+swarm.master:
+    image: swarm:0.4.0
+    command: 'manage -H 0.0.0.0:2375 zk://zookeeper:2181/'
+    links: ['zookeeper']
+
+swarm.slave:
+    # This is built from ./swarm-slave/ see README.rst
+    image: dind-swarm-slave
+    privileged: True
+    links: ['zookeeper']

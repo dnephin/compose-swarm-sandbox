@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Print shell environment for the swarm master
+#
+
+set -eu
+
+master_cid=$(docker ps -a | grep _swarm.master_1 | awk '{print $1}')
+ip=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' $master_cid)
+
+echo "export DOCKER_HOST=tcp://$ip:2375"
+echo "# Run this command to configure your shell:"
+echo "# eval \"\$($0)\""
+
