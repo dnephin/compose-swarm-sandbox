@@ -17,3 +17,17 @@ Setup
 
 Running ``docker`` or ``docker-compose`` commands in the shell will run them
 on the ``swarm`` sandbox.
+
+
+Features
+--------
+
+Scale the number of swarm slaves
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To increase or decrease the number of swarm slaves, run `docker-compose scale`.
+They will auto-join the cluster.
+
+.. code:: sh
+
+    docker-compose scale swarm.slave=3
