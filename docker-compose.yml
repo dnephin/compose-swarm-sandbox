@@ -3,8 +3,9 @@ zookeeper:
     image: dnephin/docker-zookeeper:3.4.6
 
 swarm.master:
-    image: swarm:0.4.0
-    command: 'manage -H 0.0.0.0:2375 zk://zookeeper:2181/'
+    image: dnephin/docker-swarm:0.4.0
+    entrypoint: ['sh', '-c']
+    command: ['/swarm manage -H :2375 --replication --advertise $$(hostname -i):4000 zk://zookeeper:2181/']
     links: ['zookeeper']
 
 swarm.slave:
