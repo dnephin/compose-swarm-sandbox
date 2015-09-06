@@ -13,3 +13,6 @@ swarm.slave:
     image: dind-swarm-slave
     privileged: True
     links: ['zookeeper']
+    environment:
+        discovery: "zk://zookeeper:2181/"
+        discovery_host: "zookeeper"
