@@ -4,6 +4,9 @@ Docker Compose+Swarm using dind
 
 A sandboxed swarm cluster.
 
+.. contents::
+    :backlinks: none
+
 
 Setup
 -----
@@ -38,3 +41,10 @@ To scale the number of master replicas:
 .. code:: sh
 
     docker-compose scale swarm.master=3
+
+
+Discovery Backends
+------------------
+
+The master branch uses `zookeeper` as a discovery backend. There is also an
+`with_etcd` branch which uses `etcd` for discovery.
