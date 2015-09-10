@@ -3,16 +3,15 @@ zookeeper:
     image: dnephin/docker-zookeeper:3.4.6
 
 swarm.master:
-    image: dnephin/docker-swarm:0.4.0
-    entrypoint: ['sh', '-c']
-    command: ['/swarm manage -H :2375 --replication --advertise $$(hostname -i):4000 zk://zookeeper:2181/']
+    image: dnephin/docker-swarm:latest
     links: ['zookeeper']
+    environment:
+        SWARM_DISCOVERY: "zk://zookeeper:2181/"
 
 swarm.slave:
-    # This is built from ./swarm-slave/ see README.rst
-    image: dind-swarm-slave
+    image: dnephin/docker-swarm-slave:latest
     privileged: True
     links: ['zookeeper']
     environment:
-        discovery: "zk://zookeeper:2181/"
+        SWARM_DISCOVERY: "zk://zookeeper:2181/"
         discovery_host: "zookeeper"
