@@ -13,7 +13,6 @@ Setup
 
 .. code:: sh
 
-    docker build -t dind-swarm-slave swarm-slave/
     docker-compose up -d
     eval "$(./bin/env)"
 
