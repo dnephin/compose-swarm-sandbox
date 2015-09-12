@@ -45,5 +45,5 @@ To scale the number of master replicas:
 Discovery Backends
 ------------------
 
-The master branch uses `zookeeper` as a discovery backend. There is also an
-`with_etcd` branch which uses `etcd` for discovery.
+The master branch uses `zookeeper` as a discovery backend. There are also
+`with_etcd`, and `with_consul` branches which use other discovery backends.
