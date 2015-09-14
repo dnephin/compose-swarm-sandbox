@@ -1,17 +1,31 @@
 
+
 zookeeper:
     image: dnephin/docker-zookeeper:3.4.6
 
 swarm.master:
     image: dnephin/docker-swarm:latest
-    links: ['zookeeper:discovery']
+    links: ['zookeeper:discovery', 'mesos.master']
+    command:
+        - '-c'
+        - 'mesos-experimental'
+        - 'zk://discovery:2181/mesos'
     environment:
-        SWARM_DISCOVERY: "zk://discovery:2181/"
+        SWARM_DISCOVERY: "zk://discovery:2181/swarm"
 
-swarm.slave:
-    image: dnephin/docker-swarm-slave:latest
+mesos.slave:
+    image: dnephin/docker-swarm-slave:mesos
     privileged: True
     links: ['zookeeper:discovery']
     environment:
-        SWARM_DISCOVERY: "zk://discovery:2181/"
-        DOCKER_ARGS: "--storage-driver overlay"
+        #        DOCKER_ARGS: "--storage-driver overlay"
+        SWARM_VERSION: "none"
+        MESOS_VERSION: "slave"
+
+# TODO: doesn't shutdown properly on SIGTERM
+mesos.master:
+    image: dnephin/docker-mesos:latest
+    links: ['zookeeper']
+    environment:
+        MESOS_QUORUM: 1
+        MESOS_ZK: "zk://zookeeper:2181/mesos"
