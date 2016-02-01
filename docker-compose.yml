@@ -1,17 +1,20 @@
 
-discovery:
+version: 2
+
+services:
+  discovery:
     image: dnephin/docker-zookeeper:3.4.6
 
-swarm.master:
+  swarm.master:
     image: dnephin/docker-swarm:latest
-    links: ['discovery']
+    depends_on: [discovery]
     environment:
-        SWARM_DISCOVERY: "zk://discovery:2181/"
+      SWARM_DISCOVERY: "zk://discovery:2181/"
 
-swarm.slave:
+  swarm.slave:
     image: dnephin/docker-swarm-slave:latest
+    depends_on: [discovery]
     privileged: True
-    links: ['discovery']
     environment:
-        SWARM_DISCOVERY: "zk://discovery:2181/"
-        DOCKER_ARGS: "--storage-driver overlay"
+      SWARM_DISCOVERY: "zk://discovery:2181/"
+      DOCKER_ARGS: "--storage-driver overlay"
