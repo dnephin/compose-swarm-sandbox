@@ -5,8 +5,15 @@
 
 set -eu
 
-master_cid=$(docker ps -a | grep _swarm.master_1 | awk '{print $1}')
-ip=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' $master_cid)
+cname="${COMPOSE_PROJECT_NAME}_swarm.master_1"
+master_cid=$(docker ps -a | grep $cname | awk '{print $1}')
+
+if [[ -z "$COMPOSE_PROJECT_NAME" ]]; then
+    COMPOSE_PROJECT_NAME=$(basename $PWD)
+fi
+
+network="${COMPOSE_PROJECT_NAME}_default"
+ip=$(docker inspect -f "{{.NetworkSettings.Networks.${network}.IPAddress}}" $master_cid)
 
 echo "export DOCKER_HOST=tcp://$ip:2375"
 echo "# Run this command to configure your shell:"

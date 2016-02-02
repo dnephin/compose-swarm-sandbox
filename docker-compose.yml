@@ -1,5 +1,5 @@
 
-version: 2
+version: "2"
 
 services:
   discovery:
@@ -14,8 +14,9 @@ services:
   swarm.slave:
     image: dnephin/docker-swarm-slave:latest
     depends_on: [discovery]
-    dns: ['8.8.8.8']
     privileged: True
     environment:
       SWARM_DISCOVERY: "zk://discovery:2181/"
       DOCKER_ARGS: "--storage-driver overlay"
+    # Workaround for docker stripping loopback from /etc/resolv.conf
+    dns: ['8.8.8.8']
