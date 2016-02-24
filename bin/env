@@ -5,12 +5,12 @@
 
 set -eu
 
-cname="${COMPOSE_PROJECT_NAME}_swarm.master_1"
-master_cid=$(docker ps -a | grep $cname | awk '{print $1}')
-
-if [[ -z "$COMPOSE_PROJECT_NAME" ]]; then
+if [[ -z "${COMPOSE_PROJECT_NAME}" ]]; then
     COMPOSE_PROJECT_NAME=$(basename $PWD)
 fi
+
+cname="${COMPOSE_PROJECT_NAME}_swarm.master_1"
+master_cid=$(docker ps -a | grep $cname | awk '{print $1}')
 
 network="${COMPOSE_PROJECT_NAME}_default"
 ip=$(docker inspect -f "{{.NetworkSettings.Networks.${network}.IPAddress}}" $master_cid)

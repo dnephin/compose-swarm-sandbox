@@ -18,5 +18,3 @@ services:
     environment:
       SWARM_DISCOVERY: "zk://discovery:2181/"
       DOCKER_ARGS: "--storage-driver overlay"
-    # Workaround for docker stripping loopback from /etc/resolv.conf
-    dns: ['8.8.8.8']
