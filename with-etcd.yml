@@ -2,18 +2,22 @@
 # Use with docker-compose.yml to change the discovery backed to etcd
 #
 
-discovery:
-    image: quay.io/coreos/etcd:v2.1.2
-    command:
-        - '--listen-client-urls'
-        - 'http://0.0.0.0:2379'
-        - '--advertise-client-urls'
-        - 'http://discovery:2379'
+version: "2"
 
-swarm.master:
-    environment:
-        SWARM_DISCOVERY: "etcd://discovery:2379/"
+services:
 
-swarm.slave:
-    environment:
-        SWARM_DISCOVERY: "etcd://discovery:2379/"
+    discovery:
+        image: quay.io/coreos/etcd:v2.1.2
+        command:
+            - '--listen-client-urls'
+            - 'http://0.0.0.0:2379'
+            - '--advertise-client-urls'
+            - 'http://discovery:2379'
+
+    swarm.master:
+        environment:
+            SWARM_DISCOVERY: "etcd://discovery:2379/"
+
+    swarm.slave:
+        environment:
+            SWARM_DISCOVERY: "etcd://discovery:2379/"

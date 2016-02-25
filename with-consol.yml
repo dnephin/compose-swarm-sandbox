@@ -2,14 +2,18 @@
 # Use with docker-compose.yml to change the discovery backed to consul
 #
 
-discovery:
-    image: gliderlabs/consul-server:0.5
-    command: ["-bootstrap"]
+version: "2"
 
-swarm.master:
-    environment:
-        SWARM_DISCOVERY: "consul://discovery:8500/"
+services:
 
-swarm.slave:
-    environment:
-        SWARM_DISCOVERY: "consul://discovery:8500/"
+    discovery:
+        image: gliderlabs/consul-server:0.5
+        command: ["-bootstrap"]
+
+    swarm.master:
+        environment:
+            SWARM_DISCOVERY: "consul://discovery:8500/"
+
+    swarm.slave:
+        environment:
+            SWARM_DISCOVERY: "consul://discovery:8500/"
